@@ -78,6 +78,8 @@ io.on('connection', (socket) => {
         // Notify all users in the room about the updated user list
         const userList = roomUsers[roomCode].map((user) => ({
             userId: user.userId,
+            userColor: user.userColor,
+            userPseudo: user.userPseudo
 
         }));
         io.to(roomCode).emit('user list', userList);
@@ -202,9 +204,7 @@ io.on('connection', (socket) => {
             socket.data[countdownKey] = setTimeout(() => {
                 if (isRoomReady(roomCode)) {
                     console.log(`Room ${roomCode} is confirmed full.`);
-                    io.to(roomCode).emit('room full alert', {
-                        message: `The room ${roomCode} is now full.`,
-                    });
+                    io.to(roomCode).emit('room full alert');
                 }
             }, 5000); // Delay of 5 seconds
 
